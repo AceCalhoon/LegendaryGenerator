@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang=en>
+	<head>
+		<meta charset=utf-8>
+		<meta name="viewport" content="initial-scale=1">
+		<title>Legendary Encounters Scenario Generator</title>
+		
+		<!-- @ifdef DEBUG -->
+		<link rel="stylesheet/less" type="text/css" href="Stylesheets/site.less" >
+		<script src="Scripts/Debug/less-1.7.5.js"></script>
+		<!-- @endif -->
+		
+		<!-- @ifndef DEBUG !>
+		<link rel="stylesheet" href="Stylesheets/site-<!-- @endif --><!-- @ifndef DEBUG --><!-- @echo VERSION --><!-- @endif --><!-- @ifndef DEBUG !>.min.css" >
+        <!-- @endif -->
+		
+	</head>
+	<body>
+		<section class="settings">
+			<div class="settings-wrap">
+				<section class="game-setup">
+					<h1>Setup</h1>
+					<p>
+						<label for="NumPlayers">Players</label>
+						<select id="NumPlayers" class="num-players">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3" selected>3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</p>
+				</section>
+				<section class="card-filter">
+				</section>
+				<section class="about">
+					<h1>About</h1>
+					<p>This is a simple scenario generator for the Legendary Encounters card game, produced by Upper Deck.</p>
+					<p>This application is implemented in HTML5, CSS3, and JavaScript. A modern browser is required.</p>
+					<p>Version: <!-- @echo VERSION --></p>
+					<p>Technologies in use:</p>
+					<ul>
+						<li>LESS stylesheet pre-compilation</li>
+						<li>jQuery DOM manipulation</li>
+						<li>Handlebars templating</li>
+						<li>Hosted by Heroku</li>
+					</ul>
+					<p>&copy; 2014 Aaron Siebersma</p>
+				</section>
+			</div>
+		</section>
+		<section class="controls">
+			<a href="" class="generate-btn">Generate</a>
+			<a href="" class="regenerate-btn">&#8634;</a>
+		</section>
+		<section class="results"></section>
+
+		<script id="filter-template" type="text/x-handlebars-template">
+			<h1>Filter</h1>
+			<ul class="lines">
+				{{#each this}}
+					<li>
+						<label>{{lineName}}<input type="checkbox" {{checked included}} data-id="{{lineId}}"></label>
+						<ul class="sets">
+							{{#each sets}}
+								<li>
+									<label>{{setName}}<input type="checkbox" {{checked included}} data-id="{{setId}}"></label>
+									<ul class="cards">
+										{{#each cards}}
+											<li class="card-type-{{cardType}}">
+												<label>{{cardName}}<input type="checkbox" {{checked included}} data-id="{{cardId}}"></label>
+											</li>
+										{{/each}}
+									</ul>
+								</li>
+							{{/each}}
+						</ul>
+					</li>
+				{{/each}}
+			</ul>
+		</script>
+		
+		<script id="results-template" type="text/x-handlebars-template">
+			<h1>Location</h1>
+            <ul>
+                <li>
+                    <p class="card-name">{{Location.cardName}}</p>
+                    <p class="set-name">({{Location.set.line.lineName}}: {{Location.set.setName}})</p>
+                </li>
+            </ul>
+			<h1>Objectives</h1>
+			<ul>
+				<li>
+                    <p class="card-name">{{StageOneObjective.cardName}}</p>
+                    <p class="set-name">({{StageOneObjective.set.line.lineName}}: {{StageOneObjective.set.setName}})</p>
+                </li>
+				<li>
+                    <p class="card-name">{{StageTwoObjective.cardName}}</p>
+                    <p class="set-name">({{StageTwoObjective.set.line.lineName}}: {{StageTwoObjective.set.setName}})</p>
+                </li>
+				<li>
+                    <p class="card-name">{{StageThreeObjective.cardName}}</p>
+                    <p class="set-name">({{StageThreeObjective.set.line.lineName}}: {{StageThreeObjective.set.setName}})</p>
+                </li>
+			</ul>
+			
+			<p>{{HiveCards}} Hive cards per objective ({{mult HiveCards 3 }} total)</p>
+			
+			<h1>Characters</h1>
+			<ul>
+				{{#each Characters}}
+					<li>
+                        <p class="card-name">{{cardName}}</p>
+                        <p class="set-name">({{set.line.lineName}}: {{set.setName}})</p>
+                    </li>
+				{{/each}}
+			</ul>
+		</script>
+		
+		<!-- @ifdef DEBUG -->
+		<script src="Scripts/jquery-1.11.1.min.js"></script>
+		<script src="Scripts/handlebars-v2.0.0.js"></script>
+		<script src="Scripts/handlebars-helpers.js"></script>
+		<script src="Scripts/jquery.scrollstop.js"></script>
+		<script src="Scripts/jquery.scrollsnap.js"></script>
+		<script src="Scripts/jquery.scrollto.js"></script>
+		<script src="Scripts/jquery.ba-throttle-debounce.js"></script>
+
+		<script src="Scripts/database.js"></script>
+		<script src="Scripts/encounters-generator.js"></script>
+		<script src="Scripts/encounters-card-filter.js"></script>
+		<script src="Scripts/encounters-results.js"></script>
+		<!-- @endif -->
+		
+		<!-- @ifndef DEBUG !>
+		<script src="Scripts/legendary-generator-<!-- @endif --><!-- @ifndef DEBUG --><!-- @echo VERSION --><!-- @endif --><!-- @ifndef DEBUG !>.min.js"></script>
+		<!-- @endif -->
+
+		<script>
+			"use strict"
+
+			$(function() {
+				var generator = NewEncountersGenerator(database);
+				var filter = NewEncountersCardFilter(database, $('.card-filter'), $('#filter-template'));
+				var results = NewEncountersResults(database, $('.results'), $('#results-template'));
+				
+				$('.generate-btn').click(function (event) {
+					event.preventDefault();
+
+					filter.saveFilter();
+						
+					var playerCount = $('.num-players').val();
+					var scenario = generator.getScenario(playerCount);
+					
+					results.bindResults(scenario);
+					$('.results').show();
+					$('body').scrollTo($('.controls'), {}, function() {
+						$('.settings').hide();
+						$('body').scrollTo(0, {duration: 0});
+					});
+					$('.controls').addClass('split');
+				});
+				
+				$('.regenerate-btn').click(function (event) {
+					event.preventDefault();
+
+					$('.settings').show();
+					$('body').scrollTo($('.controls'), {duration: 0});
+					$('body').scrollTo(0, { }, function() {
+						$('.results').hide();
+					});
+
+					$('.controls').removeClass('split');
+				});
+			});
+		</script>
+		
+		<script>
+			"use strict"
+			
+			$(function() {
+				initScrollSnapping();
+				initScrollEffects();
+			
+				function initScrollEffects() {
+					var scrollThrottling = 250;
+					var $settings = $('.settings');
+					
+					$settings.find('h1').wrapInner('<span class="header-text"></span>');
+					$settings.find('.header-text').css({
+						'position' : 'relative',
+						'left' : 0
+					});
+					
+					//ScrollSnap doesn't fire when user has scrolled to max or min value.
+					//Need to add a handler to scroll to manage that case.
+					$settings.on('scroll', $.throttle(scrollThrottling, function() {
+						$settings.find('.header-text').css({'left' : 0});
+						
+						var maxScroll = $settings.prop('scrollWidth') - $settings.outerWidth();
+
+						if($settings.scrollLeft() === 0 || $settings.scrollLeft() === maxScroll) {
+							scrollHandler();
+						}
+					}));
+					
+					$settings.on('scrollsnap', function() {
+						scrollHandler();
+					});
+					
+					function scrollHandler() {
+						$settings.find('.header-text').each(function() {
+							var $parentSection = $(this).closest('section');
+							var offset = - $parentSection.position().left;
+							var max = $parentSection.width() - $(this).outerWidth(true);
+							offset = Math.min(offset, max);
+							offset = Math.max(offset, 0);
+
+							$(this).animate({'left' : offset}, scrollThrottling);
+						});
+						
+						$settings.find('section').each(function() {
+							if($(this).scrollTop() !== 0) {
+								$(this).scrollTo(0);
+							}
+						});
+					}
+				}
+			
+				function initScrollSnapping() {
+					var offset = $('.settings').width() * -.05;
+
+					$('.settings section').each(function() {
+						$(this).before(
+							$('<div></div>')
+								.addClass('snap-anchor')
+								.css({
+									'float' : 'left',
+									'height' : '100%',
+									'width' : '0',
+									'position' : 'relative',
+									'left' : offset
+								})
+						);
+					});
+					
+					$('.settings .snap-anchor:first-of-type')
+						.css({'left' : '0'});
+					
+					$('.settings .snap-anchor:last-of-type')
+						.css({'left' : 2 * offset});
+						
+					$('.settings').scrollsnap({
+						snaps: '.snap-anchor',
+						direction: 'x',
+						proximity: 10000
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

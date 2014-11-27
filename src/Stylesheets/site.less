@@ -1,0 +1,277 @@
+@import (inline) "reset.css";
+
+/* Source: http://webdesign.tutsplus.com/articles/quick-tip-dont-forget-the-viewport-meta-tag--webdesign-5972 */
+@viewport{
+    zoom: 1.0;
+    width: extend-to-zoom;
+}
+
+@-ms-viewport{
+    width: extend-to-zoom;
+    zoom: 1.0;
+}
+
+@typical-radius: 5px;
+@control-height: 7.5%;
+@control-content-gap: 1%;
+@content-height: 100% - @control-height - (2 * @control-content-gap);
+
+html, body {
+	height: 100%;
+}
+
+body {
+	font-size: 110%;
+	font-family: Arial, Sans-serif;
+	background-color: #000900;
+	color: rgba(255, 255, 255, 0.9);
+	overflow: hidden;
+}
+
+h1 {
+	color: rgba(255, 171, 15, 0.9);
+	text-shadow: 0 0 .15em rgba(255, 255, 0, .5);
+	font-size: 1.75em;
+	line-height: 1.5em;
+	margin: .25em 0 .1em 0;
+	font-weight: normal;
+}
+
+p {
+	margin: .5em 0 .1em 0;
+}
+
+.settings {
+	width: 100%;
+	height: @content-height;
+	box-sizing: border-box;
+	overflow: auto;
+	overflow-x: scroll;
+	-webkit-overflow-scrolling: touch;
+	
+	section {
+		padding-left: 1%;
+		box-sizing: border-box;
+		
+		&:last-of-type {
+			padding-right: 1%;
+		}
+	}
+	
+	.settings-wrap {
+		width: 90% * 3;
+		height: 100%;
+		
+		section {
+			width: 100% / 3;
+			float: left;
+			height: 100%;
+		}
+	}
+	
+	.game-setup {
+		label {
+			width: 8em;
+			display: inline-block;
+		}
+		
+		select {
+			display: inline-block;
+			width: 4em;
+			height: 2em;
+			vertical-align: middle;
+		}
+	}
+	
+	.card-filter {
+		overflow-y: scroll;
+		overflow-x: hidden;
+		
+		ul {
+			margin: 0;
+			padding: 0;
+		}
+		
+		& > ul > li {
+			& > label {
+				padding-left: .5em;
+				background: linear-gradient(#003900, #003100 55%, #002900);
+			}
+		}
+		
+		& > ul > li > ul > li  {
+			& > label {
+				padding-left: 1em;
+				background: linear-gradient(#002900, #002100 55%, #001900);
+			}
+			
+			ul {
+				background: linear-gradient(#001900, #001100 55%, #000900);
+			}
+		}
+		
+		& > ul > li > ul > li > ul > li  {
+			label {
+				padding-left: 1.5em;
+			}
+		}
+
+		& > ul.lines > li > label {
+			border-top-left-radius: @typical-radius;
+			border-top-right-radius: @typical-radius;
+		}
+        
+        & > ul.lines > li > ul.sets > li > label {
+			border-top-left-radius: @typical-radius;
+			border-top-right-radius: @typical-radius;
+		}
+        
+        & > ul.lines > li > ul.sets > li:first-child > label {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+		
+		li {
+			display: block;
+			position: relative;
+
+			label {
+				/*.vertical-center-text;*/
+				display: block;
+				height: 100%;
+				padding: .5em;
+			}
+			
+			input {
+				float: right;
+			}
+		}
+	}
+	
+	.about {
+		overflow: auto;
+
+		li {
+			margin-left: 1em;
+		}
+	}
+}
+
+.results {
+	width: 100%;
+	height: @content-height;
+	overflow: auto;
+	
+	padding-left: .25em;
+	padding-right: .25em;
+	box-sizing: border-box;
+	
+	display: none;
+    
+    .card-name, .set-name {
+        margin: 0;
+    }
+    
+    .card-name:nth-child(2), .set-name:nth-child(2) {
+        margin-bottom: .75em;
+    }
+    
+    .set-name {
+        font-size: .65em;
+        color: rgba(128, 128, 128, 0.9);
+        white-space: nowrap;
+    }
+}
+
+.controls {
+	height: @control-height;
+	width: 100%;
+	box-sizing: border-box;
+	padding-left: .25em;
+	padding-right: .25em;
+	padding-top: @control-content-gap;
+	
+	a {
+		.full-center-text;
+		
+		float: left;
+		height: 100%;
+		
+		border-radius: @typical-radius;
+		background-color: #003900;
+		
+		color: rgba(255, 255, 255, 0.8);
+		
+		text-align: center;
+		text-decoration: none;
+		letter-spacing: .075em;
+		font-weight: bold;
+		
+		overflow: hidden;
+		
+		transition: width .5s, margin-right .5s;
+		
+		&.generate-btn {
+			width: 100%;
+			margin-right: 0;
+		}
+		
+		&.regenerate-btn {
+			width: 0%;
+		}
+	}
+	
+	&.split {
+		& .generate-btn {
+			width: 74%;
+			margin-right: 1%;
+		}
+		
+		& .regenerate-btn {
+			width: 25%;
+		}
+	}
+
+}
+
+.vertical-center-text() {
+	/* Source: http://stackoverflow.com/a/18966255/16911 */
+	/* Internet Explorer 10 */
+	display:-ms-flexbox;
+	-ms-flex-align:center;
+
+	/* Firefox */
+	display:-moz-box;
+	-moz-box-align:center;
+
+	/* Safari, Opera, and Chrome */
+	display:-webkit-box;
+	-webkit-box-align:center;
+
+	/* W3C */
+	display:box;
+	box-align:center;
+}
+
+.full-center-text() {
+	/* Source: http://stackoverflow.com/a/18966255/16911 */
+	/* Internet Explorer 10 */
+	display:-ms-flexbox;
+	-ms-flex-pack:center;
+	-ms-flex-align:center;
+
+	/* Firefox */
+	display:-moz-box;
+	-moz-box-pack:center;
+	-moz-box-align:center;
+
+	/* Safari, Opera, and Chrome */
+	display:-webkit-box;
+	-webkit-box-pack:center;
+	-webkit-box-align:center;
+
+	/* W3C */
+	display:box;
+	box-pack:center;
+	box-align:center;
+}
