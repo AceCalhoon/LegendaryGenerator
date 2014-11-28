@@ -5,6 +5,24 @@
 		<meta name="viewport" content="initial-scale=1">
 		<title>Legendary Encounters Scenario Generator</title>
 		
+		<link rel="shortcut icon" href="/Images/Favicon/favicon.ico">
+		<link rel="apple-touch-icon" sizes="57x57" href="/Images/Favicon/apple-touch-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="/Images/Favicon/apple-touch-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="/Images/Favicon/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="/Images/Favicon/apple-touch-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="/Images/Favicon/apple-touch-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/Images/Favicon/apple-touch-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="/Images/Favicon/apple-touch-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="/Images/Favicon/apple-touch-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/Images/Favicon/apple-touch-icon-180x180.png">
+		<link rel="icon" type="image/png" href="/Images/Favicon/favicon-192x192.png" sizes="192x192">
+		<link rel="icon" type="image/png" href="/Images/Favicon/favicon-160x160.png" sizes="160x160">
+		<link rel="icon" type="image/png" href="/Images/Favicon/favicon-96x96.png" sizes="96x96">
+		<link rel="icon" type="image/png" href="/Images/Favicon/favicon-16x16.png" sizes="16x16">
+		<link rel="icon" type="image/png" href="/Images/Favicon/favicon-32x32.png" sizes="32x32">
+		<meta name="msapplication-TileImage" content="/Images/Favicon/mstile-144x144.png">
+		<meta name="msapplication-config" content="/Images/Favicon/browserconfig.xml">
+		
 		<!-- @ifdef DEBUG -->
 		<link rel="stylesheet/less" type="text/css" href="Stylesheets/site.less" >
 		<script src="Scripts/Debug/less-1.7.5.js"></script>
@@ -12,7 +30,7 @@
 		
 		<!-- @ifndef DEBUG !>
 		<link rel="stylesheet" href="Stylesheets/site-<!-- @endif --><!-- @ifndef DEBUG --><!-- @echo VERSION --><!-- @endif --><!-- @ifndef DEBUG !>.min.css" >
-        <!-- @endif -->
+		<!-- @endif -->
 		
 	</head>
 	<body>
@@ -44,7 +62,7 @@
 						<li>jQuery DOM manipulation</li>
 						<li>Handlebars templating</li>
 						<li>Hosted by Heroku</li>
-                        <li><a href="https://github.com/AceCalhoon/LegendaryGenerator">Source Code on GitHub</a></li>
+						<li><a href="https://github.com/AceCalhoon/LegendaryGenerator">Source Code on GitHub</a></li>
 					</ul>
 					<p>&copy; 2014 Aaron Siebersma</p>
 				</section>
@@ -83,26 +101,26 @@
 		
 		<script id="results-template" type="text/x-handlebars-template">
 			<h1>Location</h1>
-            <ul>
-                <li>
-                    <p class="card-name">{{Location.cardName}}</p>
-                    <p class="set-name">({{Location.set.line.lineName}}: {{Location.set.setName}})</p>
-                </li>
-            </ul>
+			<ul>
+				<li>
+					<p class="card-name">{{Location.cardName}}</p>
+					<p class="set-name">({{Location.set.line.lineName}}: {{Location.set.setName}})</p>
+				</li>
+			</ul>
 			<h1>Objectives</h1>
 			<ul>
 				<li>
-                    <p class="card-name">{{StageOneObjective.cardName}}</p>
-                    <p class="set-name">({{StageOneObjective.set.line.lineName}}: {{StageOneObjective.set.setName}})</p>
-                </li>
+					<p class="card-name">{{StageOneObjective.cardName}}</p>
+					<p class="set-name">({{StageOneObjective.set.line.lineName}}: {{StageOneObjective.set.setName}})</p>
+				</li>
 				<li>
-                    <p class="card-name">{{StageTwoObjective.cardName}}</p>
-                    <p class="set-name">({{StageTwoObjective.set.line.lineName}}: {{StageTwoObjective.set.setName}})</p>
-                </li>
+					<p class="card-name">{{StageTwoObjective.cardName}}</p>
+					<p class="set-name">({{StageTwoObjective.set.line.lineName}}: {{StageTwoObjective.set.setName}})</p>
+				</li>
 				<li>
-                    <p class="card-name">{{StageThreeObjective.cardName}}</p>
-                    <p class="set-name">({{StageThreeObjective.set.line.lineName}}: {{StageThreeObjective.set.setName}})</p>
-                </li>
+					<p class="card-name">{{StageThreeObjective.cardName}}</p>
+					<p class="set-name">({{StageThreeObjective.set.line.lineName}}: {{StageThreeObjective.set.setName}})</p>
+				</li>
 			</ul>
 			
 			<p>{{HiveCards}} Hive cards per objective ({{mult HiveCards 3 }} total)</p>
@@ -111,9 +129,9 @@
 			<ul>
 				{{#each Characters}}
 					<li>
-                        <p class="card-name">{{cardName}}</p>
-                        <p class="set-name">({{set.line.lineName}}: {{set.setName}})</p>
-                    </li>
+						<p class="card-name">{{cardName}}</p>
+						<p class="set-name">({{set.line.lineName}}: {{set.setName}})</p>
+					</li>
 				{{/each}}
 			</ul>
 		</script>

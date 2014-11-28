@@ -54,6 +54,18 @@ module.exports = function(grunt) {
                 '../output/EncountersGenerator.html' : '../src/EncountersGenerator.html'
             }
         }
+    },
+    copy: {
+        dist: {
+            files: [
+                {
+                    expand: true,
+                    cwd: '../src/Images',
+                    src: ['**', '!Source/**'],
+                    dest: '../output/Images/'
+                }
+            ]
+        }
     }
   });
 
@@ -62,8 +74,16 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-preprocess');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   // Default task(s).
-  grunt.registerTask('default', ['clean:init', 'concat', 'uglify', 'less', 'preprocess', 'clean:finalize']);
-
+  grunt.registerTask('default', [
+    'clean:init',
+    'concat',
+    'uglify',
+    'less',
+    'preprocess',
+    'copy',
+    'clean:finalize'
+  ]);
 };
