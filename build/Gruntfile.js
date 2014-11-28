@@ -50,9 +50,14 @@ module.exports = function(grunt) {
                     VERSION: '<%= pkg.version %>'
                 }
             },
-            files : {
-                '../output/EncountersGenerator.html' : '../src/EncountersGenerator.html'
-            }
+            files : [
+                {
+                    expand: true,
+                    cwd: '../src',
+                    src: ['*.html'],
+                    dest: '../output/'
+                }
+            ]
         }
     },
     copy: {
