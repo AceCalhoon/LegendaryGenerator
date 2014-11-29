@@ -68,6 +68,12 @@ module.exports = function(grunt) {
                     cwd: '../src/Images',
                     src: ['**', '!Source/**'],
                     dest: '../output/Images/'
+                },
+                {
+                    expand: true,
+                    cwd: '../src',
+                    src: ['*', '!*.html', '!offline-manifest.appcache'],
+                    dest: '../output/'
                 }
             ]
         }
