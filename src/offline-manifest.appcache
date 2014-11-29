@@ -1,0 +1,21 @@
+CACHE MANIFEST
+EncountersGenerator.html
+Stylesheets/site-<!-- @echo VERSION -->.min.css
+Scripts/legendary-generator-<!-- @echo VERSION -->.min.js
+Images/Favicon/favicon.ico
+Images/Favicon/apple-touch-icon-57x57.png
+Images/Favicon/apple-touch-icon-114x114.png
+Images/Favicon/apple-touch-icon-72x72.png
+Images/Favicon/apple-touch-icon-144x144.png
+Images/Favicon/apple-touch-icon-60x60.png
+Images/Favicon/apple-touch-icon-120x120.png
+Images/Favicon/apple-touch-icon-76x76.png
+Images/Favicon/apple-touch-icon-152x152.png
+Images/Favicon/apple-touch-icon-180x180.png
+Images/Favicon/favicon-192x192.png
+Images/Favicon/favicon-160x160.png
+Images/Favicon/favicon-96x96.png
+Images/Favicon/favicon-16x16.png
+Images/Favicon/favicon-32x32.png
+Images/Favicon/mstile-144x144.png
+Images/Favicon/browserconfig.xml
