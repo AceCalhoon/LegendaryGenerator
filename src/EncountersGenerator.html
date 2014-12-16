@@ -96,9 +96,11 @@
 									<label>{{setName}}<input type="checkbox" {{checked included}} data-id="{{setId}}"></label>
 									<ul class="cards">
 										{{#each cards}}
-											<li class="card-type-{{cardType}}">
-												<label>{{cardName}}<input type="checkbox" {{checked included}} data-id="{{cardId}}"></label>
-											</li>
+                                            {{#ifInCollection cardType 'character' 'location' 'stageOneObjective' 'stageTwoObjective' 'stageThreeObjective'}}
+                                                <li class="card-type-{{cardType}}">
+                                                    <label>{{cardName}}<input type="checkbox" {{checked included}} data-id="{{cardId}}"></label>
+                                                </li>
+                                            {{/ifInCollection}}
 										{{/each}}
 									</ul>
 								</li>

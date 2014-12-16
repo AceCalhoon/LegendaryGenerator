@@ -8,3 +8,17 @@ Handlebars.registerHelper('checked', function(currentValue) {
 Handlebars.registerHelper('mult', function(val1, val2) {
 	return val1 * val2;
 });
+
+Handlebars.registerHelper('ifInCollection', function(val) {
+    //Last argument is the options object.
+    var options = arguments[arguments.length - 1];
+
+    //Skip the first (val) and last (options) values in the arguments array
+    for(var i = 1; i < arguments.length - 1; ++i) {
+        if(val === arguments[i]) {
+            return options.fn(this);
+        }
+    }
+
+    return options.inverse(this);
+});
