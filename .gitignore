@@ -1,2 +1,2 @@
 src/web.config
-output/web.config
+output/**
