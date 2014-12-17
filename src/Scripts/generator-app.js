@@ -1,12 +1,44 @@
 function NewGeneratorApp(db, el) {
     var $el = $(el);
+    var gen = NewGeneratorBase(db, el);
+
+    gen.setRuleset(NewEncountersRuleset());
     
     initScrollSnapping();
     initScrollEffects();
-
+    initButtonEvents();
+    
     return {
     
     };
+    
+    function initButtonEvents() {
+        $el.find('.generate-btn').click(function (event) {
+            event.preventDefault();
+
+            var playerCount = $('.num-players').val();
+            gen.generate(playerCount);
+
+            $el.find('.results').show();
+            $el.scrollTo($el.find('.controls'), {}, function() {
+                $el.find('.settings').hide();
+                $el.scrollTo(0, {duration: 0});
+            });
+            $el.find('.controls').addClass('split');
+        });
+        
+        $el.find('.regenerate-btn').click(function (event) {
+            event.preventDefault();
+
+            $el.find('.settings').show();
+            $el.scrollTo($('.controls'), {duration: 0});
+            $el.scrollTo(0, { }, function() {
+                $el.find('.results').hide();
+            });
+
+            $el.find('.controls').removeClass('split');
+        });
+    }
     
     function initScrollEffects() {
         var scrollThrottling = 250;

@@ -84,7 +84,7 @@
 		</section>
 		<section class="results"></section>
 
-		<script id="filter-template" type="text/x-handlebars-template">
+		<script id="encounters-filter-template" type="text/x-handlebars-template">
 			<h1>Filter</h1>
 			<ul class="lines">
 				{{#each this}}
@@ -111,7 +111,7 @@
 			</ul>
 		</script>
 		
-		<script id="results-template" type="text/x-handlebars-template">
+		<script id="encounters-results-template" type="text/x-handlebars-template">
 			<h1>Location</h1>
 			<ul>
 				<li>
@@ -159,9 +159,8 @@
 
 		<script src="Scripts/database.js"></script>
         <script src="Scripts/generator-app.js"></script>
-		<script src="Scripts/encounters-generator.js"></script>
-		<script src="Scripts/encounters-card-filter.js"></script>
-		<script src="Scripts/encounters-results.js"></script>
+        <script src="Scripts/generator-base.js"></script>
+        <script src="Scripts/encounters-ruleset.js"></script>
 		<!-- @endif -->
 		
 		<!-- @ifndef DEBUG !>
@@ -173,39 +172,6 @@
 
 			$(function() {
                 var generatorApp = NewGeneratorApp(database, $('.generator'));
-
-				var generator = NewEncountersGenerator(database);
-				var filter = NewEncountersCardFilter(database, $('.card-filter'), $('#filter-template'));
-				var results = NewEncountersResults(database, $('.results'), $('#results-template'));
-				
-				$('.generate-btn').click(function (event) {
-					event.preventDefault();
-
-					filter.saveFilter();
-						
-					var playerCount = $('.num-players').val();
-					var scenario = generator.getScenario(playerCount);
-					
-					results.bindResults(scenario);
-					$('.results').show();
-					$('body').scrollTo($('.controls'), {}, function() {
-						$('.settings').hide();
-						$('body').scrollTo(0, {duration: 0});
-					});
-					$('.controls').addClass('split');
-				});
-				
-				$('.regenerate-btn').click(function (event) {
-					event.preventDefault();
-
-					$('.settings').show();
-					$('body').scrollTo($('.controls'), {duration: 0});
-					$('body').scrollTo(0, { }, function() {
-						$('.results').hide();
-					});
-
-					$('.controls').removeClass('split');
-				});
 			});
 		</script>
 	</body>
