@@ -6,17 +6,29 @@ function NewGeneratorApp(db, el) {
     
     initScrollSnapping();
     initScrollEffects();
-    initButtonEvents();
+    initInterfaceEvents();
     
     return {
     
     };
     
-    function initButtonEvents() {
+    function initInterfaceEvents() {
+        $el.find('.ruleset select').change(function (event) {
+            var ruleset = $(this).val();
+            switch(ruleset) {
+                case 'Legendary':
+                    gen.setRuleset(NewLegendaryRuleset());
+                    break;
+                case 'LegendaryEncounters':
+                    gen.setRuleset(NewEncountersRuleset());
+                    break;
+            }
+        });
+    
         $el.find('.generate-btn').click(function (event) {
             event.preventDefault();
 
-            var playerCount = $('.num-players').val();
+            var playerCount = $('.num-players input[type=radio]:checked').val();
             gen.generate(playerCount);
 
             $el.find('.results').show();
