@@ -123,23 +123,32 @@
 			<h1>Location</h1>
 			<ul>
 				<li>
-					<p class="card-name">{{Location.cardName}}</p>
-					<p class="set-name">({{Location.set.line.lineName}}: {{Location.set.setName}})</p>
+                    {{#if Location}}
+                        <p class="card-name">{{Location.cardName}}</p>
+                        <p class="set-name">({{Location.set.line.lineName}}: {{Location.set.setName}})</p>
+                    {{/if}}
 				</li>
 			</ul>
 			<h1>Objectives</h1>
 			<ul>
+                <li>
+                    {{#if StageOneObjective}}
+                        <p class="card-name">{{StageOneObjective.cardName}}</p>
+                        <p class="set-name">({{StageOneObjective.set.line.lineName}}: {{StageOneObjective.set.setName}})</p>
+                    {{/if}}
+                </li>
+
 				<li>
-					<p class="card-name">{{StageOneObjective.cardName}}</p>
-					<p class="set-name">({{StageOneObjective.set.line.lineName}}: {{StageOneObjective.set.setName}})</p>
+                    {{#if StageTwoObjective}}
+                        <p class="card-name">{{StageTwoObjective.cardName}}</p>
+                        <p class="set-name">({{StageTwoObjective.set.line.lineName}}: {{StageTwoObjective.set.setName}})</p>
+                    {{/if}}
 				</li>
 				<li>
-					<p class="card-name">{{StageTwoObjective.cardName}}</p>
-					<p class="set-name">({{StageTwoObjective.set.line.lineName}}: {{StageTwoObjective.set.setName}})</p>
-				</li>
-				<li>
-					<p class="card-name">{{StageThreeObjective.cardName}}</p>
-					<p class="set-name">({{StageThreeObjective.set.line.lineName}}: {{StageThreeObjective.set.setName}})</p>
+                    {{#if StageThreeObjective}}
+                        <p class="card-name">{{StageThreeObjective.cardName}}</p>
+                        <p class="set-name">({{StageThreeObjective.set.line.lineName}}: {{StageThreeObjective.set.setName}})</p>
+                    {{/if}}
 				</li>
 			</ul>
 			
@@ -187,20 +196,26 @@
 			<h1>Scheme</h1>
 			<ul>
 				<li>
-					<p class="card-name">{{Scheme.cardName}}</p>
-					<p class="set-name">({{Scheme.set.line.lineName}}: {{Scheme.set.setName}})</p>
+                    {{#if Scheme}}
+                        <p class="card-name">{{Scheme.cardName}}</p>
+                        <p class="set-name">({{Scheme.set.line.lineName}}: {{Scheme.set.setName}})</p>
+                    {{/if}}
 				</li>
 			</ul>
 			
-            <p>{{Scheme.setup}}</p>
+            {{#if Scheme}}
+                <p>{{Scheme.setup}}</p>
+            {{/if}}
             <p>{{Bystanders}} Bystanders in the villain deck</p>
             <p>5 Master Strikes in the villain deck</p>
 
             <h1>Mastermind</h1>
 			<ul>
 				<li>
-					<p class="card-name">{{Mastermind.cardName}}</p>
-					<p class="set-name">({{Mastermind.set.line.lineName}}: {{Mastermind.set.setName}})</p>
+                    {{#if Mastermind}}
+                        <p class="card-name">{{Mastermind.cardName}}</p>
+                        <p class="set-name">({{Mastermind.set.line.lineName}}: {{Mastermind.set.setName}})</p>
+                    {{/if}}
 				</li>
 			</ul>
 
