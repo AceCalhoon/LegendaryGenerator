@@ -13,7 +13,7 @@ function NewGeneratorApp(db, el) {
     };
     
     function initInterfaceEvents() {
-        $el.find('.ruleset select').change(function (event) {
+        $el.find('.ruleset input[type=radio]').click(function (event) {
             var ruleset = $(this).val();
             switch(ruleset) {
                 case 'Legendary':

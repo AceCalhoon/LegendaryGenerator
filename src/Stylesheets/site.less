@@ -104,19 +104,30 @@ a:visited {
                 display: block;
             }
             
-            select {
+            &.ruleset input[type=radio] {
+                display: none;
+            }
+            
+            &.ruleset input[type=radio]+label {
+                height: 2.5em;
                 display: block;
                 
-                box-sizing: border-box;
-                height: 2.5em;
-                width: 100%;
+                text-align: center;
+                line-height: 2.5em;
                 
-                vertical-align: middle;
-                
-                background-color: @control-color;
-                border: .1em solid @control-color;
                 border-radius: @typical-radius;
-                color: @base-color;
+                border: .1em solid @control-color;
+                
+                cursor: pointer;
+            }
+            
+            &.ruleset input[type=radio]:checked+label {
+                border: .1em solid #001900;
+                background-color: @control-color;
+            }
+            
+            &.ruleset input[type=radio]+label+input[type=radio]+label {
+                margin-top: 1em;
             }
             
             &.num-players .control-container {

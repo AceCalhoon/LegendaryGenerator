@@ -51,10 +51,10 @@
                     <ul>
                         <li class="ruleset">
                             <label>Ruleset</label>
-                            <select id="Ruleset">
-                                <option value="Legendary">Legendary</option>
-                                <option value="LegendaryEncounters" selected>Legendary Encounters</option>
-                            </select>
+                            <div class="control-container">
+                                <input type="radio" name="Ruleset" value="Legendary" id="Ruleset_Legendary"><label for="Ruleset_Legendary">Legendary</label>
+                                <input type="radio" name="Ruleset" value="LegendaryEncounters" id="Ruleset_LegendaryEncounters" checked><label for="Ruleset_LegendaryEncounters">Legendary Encounters</label>
+                            </div>
                         </li>
                         <li class="num-players">
                             <label for="NumPlayers">Players</label>
@@ -155,6 +155,85 @@
 				{{/each}}
 			</ul>
 		</script>
+
+        <script id="legendary-filter-template" type="text/x-handlebars-template">
+			<h1>Filter</h1>
+			<ul class="lines">
+				{{#each this}}
+					<li>
+						<label>{{lineName}}<input type="checkbox" {{checked included}} data-id="{{lineId}}"></label>
+						<ul class="sets">
+							{{#each sets}}
+								<li>
+									<label>{{setName}}<input type="checkbox" {{checked included}} data-id="{{setId}}"></label>
+									<ul class="cards">
+										{{#each cards}}
+                                            {{#ifInCollection cardType 'character' 'mastermind' 'henchman' 'villain' 'scheme'}}
+                                                <li class="card-type-{{cardType}}">
+                                                    <label>{{cardName}}<input type="checkbox" {{checked included}} data-id="{{cardId}}"></label>
+                                                </li>
+                                            {{/ifInCollection}}
+										{{/each}}
+									</ul>
+								</li>
+							{{/each}}
+						</ul>
+					</li>
+				{{/each}}
+			</ul>
+		</script>
+		
+		<script id="legendary-results-template" type="text/x-handlebars-template">
+			<h1>Scheme</h1>
+			<ul>
+				<li>
+					<p class="card-name">{{Scheme.cardName}}</p>
+					<p class="set-name">({{Scheme.set.line.lineName}}: {{Scheme.set.setName}})</p>
+				</li>
+			</ul>
+			
+            <p>{{Scheme.setup}}</p>
+            <p>{{Bystanders}} Bystanders in the villain deck</p>
+            <p>5 Master Strikes in the villain deck</p>
+
+            <h1>Mastermind</h1>
+			<ul>
+				<li>
+					<p class="card-name">{{Mastermind.cardName}}</p>
+					<p class="set-name">({{Mastermind.set.line.lineName}}: {{Mastermind.set.setName}})</p>
+				</li>
+			</ul>
+
+            <h1>Villains</h1>
+			<ul>
+				{{#each Villains}}
+					<li>
+						<p class="card-name">{{cardName}}</p>
+						<p class="set-name">({{set.line.lineName}}: {{set.setName}})</p>
+					</li>
+				{{/each}}
+			</ul>
+            
+            <h1>Henchmen</h1>
+			<ul>
+				{{#each Henchmen}}
+					<li>
+						<p class="card-name">{{cardName}}</p>
+						<p class="set-name">({{set.line.lineName}}: {{set.setName}})</p>
+					</li>
+				{{/each}}
+			</ul>
+
+            <h1>Heroes</h1>
+			<ul>
+				{{#each Characters}}
+					<li>
+						<p class="card-name">{{cardName}}</p>
+						<p class="set-name">({{set.line.lineName}}: {{set.setName}})</p>
+					</li>
+				{{/each}}
+			</ul>
+		</script>
 		
 		<!-- @ifdef DEBUG -->
 		<script src="Scripts/jquery-1.11.1.min.js"></script>
@@ -169,6 +248,7 @@
         <script src="Scripts/generator-app.js"></script>
         <script src="Scripts/generator-base.js"></script>
         <script src="Scripts/encounters-ruleset.js"></script>
+        <script src="Scripts/legendary-ruleset.js"></script>
 		<!-- @endif -->
 		
 		<!-- @ifndef DEBUG !>
