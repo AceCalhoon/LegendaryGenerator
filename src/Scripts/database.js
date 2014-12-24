@@ -47,6 +47,7 @@ function attachDbMethods() {
 	database.getAllSets = getAllSets;
 	database.getAllCards = getAllCards;
 	database.getSelectedCardsByType = getSelectedCardsByType;
+    database.getCardById = getCardById;
 }
 
 function attachParentProperties() {
@@ -113,6 +114,21 @@ function getSelectedCardsByType(cardType) {
 	}
 	
 	return selectedCards;
+}
+
+function getCardById(id) {
+	for(var lineKey in database) {
+		var currentLine = database[lineKey];
+        for(var setKey in currentLine.sets) {
+            var currentSet = currentLine.sets[setKey];
+            for(var cardKey in currentSet.cards) {
+                var currentCard = currentSet.cards[cardKey];
+                if(currentCard.cardId === id) {
+                    return currentCard;
+                }
+            }
+        }
+	}
 }
 
 var database = [
@@ -476,7 +492,7 @@ var database = [
 					},
                     {
 						"cardType" : "villain",
-						"cardName" : "Skurlls",
+						"cardName" : "Skrulls",
 						"cardId" : "skrulls",
 						"included" : true
 					},
@@ -520,49 +536,57 @@ var database = [
 						"cardType" : "scheme",
 						"cardName" : "The Legacy Virus",
 						"cardId" : "legacyVirus",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Wound stack holds 6 Wounds per player"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Midtown Bank Robbery",
 						"cardId" : "midtownBankRobbery",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. 12 total Bystanders in the Villain Deck"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Negative Zone Prison Breakout",
 						"cardId" : "negativeZonePrisonBreakout",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Add an extra Henchmen group to the Villain Deck"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Portals to the Dark Dimension",
 						"cardId" : "portalsToTheDarkDimension",
-						"included" : true
+						"included" : true,
+                        "setup" : "7 Scheme Twists. Each twist is a Dark Portal"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Replace Earth's Leaders with Killbots",
 						"cardId" : "replaceEarthsLeadersWithKillbots",
-						"included" : true
+						"included" : true,
+                        "setup" : "5 Scheme Twists. 3 Additional Scheme Twists next to this Scheme. 18 total Bystanders in the Villain Deck."
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Secret Invasion of the Skrull Shapeshifters",
 						"cardId" : "secretInvasionOfTheSkrullShapeshifters",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. 6 Heroes. Skrull Villain Group required. Shuffle 12 Random Heroes from the Hero Deck into the Villain Deck."
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Super Hero Civil War",
 						"cardId" : "superHeroCivilWar",
-						"included" : true
+						"included" : true,
+                        "setup" : "For 2-3 players, use 8 Scheme Twists. For 4-5 players, use 5 Scheme Twists. If only 2 players, use only 4 heroes in the Hero Deck."
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Unleash the Power of the Cosmic Cube",
 						"cardId" : "unleashThePowerOfTheCosmicCube",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists"
 					}
 				]
 			},
@@ -760,49 +784,57 @@ var database = [
 						"cardType" : "scheme",
 						"cardName" : "Capture Baby Hope",
 						"cardId" : "captureBabyHope",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Put a token on this Scheme to represent the baby, Hope Summers."
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Detonate the Helicarrier",
 						"cardId" : "detonateTheHelicarrier",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. 6 Heroes in the Hero Deck."
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Massive Earthquake Generator",
 						"cardId" : "massiveEarthquakeGenerator",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists"
 					},
                     {
 						"cardType" : "scheme",
-						"cardName" : "Organized Crimewave",
-						"cardId" : "organizedCrimewave",
-						"included" : true
+						"cardName" : "Organized Crime Wave",
+						"cardId" : "organizedCrimeWave",
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Include 10 Maggia Goons as one of the Henchman groups."
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Save Humanity",
 						"cardId" : "saveHumanity",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. 24 Bystanders in the Hero Deck (1 player: 12 Bystanders in the Hero Deck)"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Steal the Weaponized Plutonium",
 						"cardId" : "stealTheWeaponizedPlutonium",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists representing plutonium. Add an extra Villain Group."
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Transform Citizens into Demons",
 						"cardId" : "transformCitizensIntoDemons",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Villain Deck includes 14 extra Jean Grey and no Bystanders."
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "X-Cutioner's Song",
 						"cardId" : "xcutionersSong",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Villain Deck includes 14 cards for an extra Hero and no Bystanders"
 					}
 				]
 			},
@@ -871,19 +903,22 @@ var database = [
 						"cardType" : "scheme",
 						"cardName" : "Bathe Earth in Cosmic Rays",
 						"cardId" : "batheEarthInCosmicRays",
-						"included" : true
+						"included" : true,
+                        "setup" : "6 Scheme Twists"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Flood the Planet with Melted Glaciers",
 						"cardId" : "floodThePlanetWithMeltedGlaciers",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Invincible Force Field",
 						"cardId" : "invincibleForceField",
-						"included" : true
+						"included" : true,
+                        "setup" : "7 Scheme Twists"
 					}
 				]
 			},
@@ -952,25 +987,29 @@ var database = [
 						"cardType" : "scheme",
 						"cardName" : "The Clone Saga",
 						"cardId" : "theCloneSaga",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Splice Humans with Spider DNA",
 						"cardId" : "spliceHumansWithSpiderDna",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Include Sinister Six as one of the Villain Groups."
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Web of Lies",
 						"cardId" : "webOfLies",
-						"included" : true
+						"included" : true,
+                        "setup" : "7 Scheme Twists"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Invade the Daily Bugle News HQ",
 						"cardId" : "invadeTheDailyBugleNewsHq",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Add 6 extra Henchmen from a single Henchmen Group to the Hero Deck."
 					}
 				]
 			},
@@ -1039,25 +1078,29 @@ var database = [
 						"cardType" : "scheme",
 						"cardName" : "Unite the Shards",
 						"cardId" : "uniteTheShards",
-						"included" : true
+						"included" : true,
+                        "setup" : "30 shards in the supply. Scheme Twists equal to the number of players plus 5"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Forge the Infinity Gauntlet",
 						"cardId" : "forgeTheInfinityGauntlet",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Always include the Infinity Gems Villain Group"
 					},
                     {
 						"cardType" : "scheme",
-						"cardName" : "The Kree-Skrll War",
+						"cardName" : "The Kree-Skrull War",
 						"cardId" : "theKreeSkrullWar",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Always include Kree Starforce and Skrull Villain Groups"
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Intergalactic Kree Nega-Bomb",
 						"cardId" : "intergalacticKreeNegaBomb",
-						"included" : true
+						"included" : true,
+                        "setup" : "8 Scheme Twists. Make a face down 'Nega-Bomb' deck of 6 Bystanders"
 					}
 				]
 			}
