@@ -919,7 +919,14 @@ var database = [
 						"cardId" : "invincibleForceField",
 						"included" : true,
                         "setup" : "7 Scheme Twists"
-					}
+					},
+                    {
+                        "cardType" : "scheme",
+                        "cardName" : "Pull Reality into the Negative Zone",
+                        "cardId" : "pullRealityIntoTheNegativeZone",
+                        "included" : true,
+                        "setup" : "8 Scheme Twists"
+                    }
 				]
 			},
             {
