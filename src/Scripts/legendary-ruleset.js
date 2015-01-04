@@ -86,73 +86,72 @@ function NewLegendaryRuleset() {
     
     function getLegendaryScenario(playerCount) {
         var scenario = {};
+        var scenarioOptions = {};
         
-        var henchmen = internalDb.getSelectedCardsByType("henchman");
-        var villains = internalDb.getSelectedCardsByType("villain");
-        var masterminds = internalDb.getSelectedCardsByType("mastermind");
-        var characters = internalDb.getSelectedCardsByType("character");
-        var schemes = internalDb.getSelectedCardsByType("scheme");
-
-        var villainGroups;
-        var henchmanGroups;
-        var bystanders;
-        var heroes;
-
+        var cardPool = {
+            henchmen : internalDb.getSelectedCardsByType("henchman"),
+            villains : internalDb.getSelectedCardsByType("villain"),
+            masterminds : internalDb.getSelectedCardsByType("mastermind"),
+            characters : internalDb.getSelectedCardsByType("character"),
+            schemes : internalDb.getSelectedCardsByType("scheme")
+        };
+        
         switch(playerCount) {
             case '2':
-                villainGroups = 2;
-                henchmanGroups = 1;
-                bystanders = 2;
-                heroes = 5;
+                scenarioOptions.villainGroups = 2;
+                scenarioOptions.henchmanGroups = 1;
+                scenarioOptions.bystanders = 2;
+                scenarioOptions.heroes = 5;
                 break;
             case '3':
-                villainGroups = 3;
-                henchmanGroups = 1;
-                bystanders = 8;
-                heroes = 5;
+                scenarioOptions.villainGroups = 3;
+                scenarioOptions.henchmanGroups = 1;
+                scenarioOptions.bystanders = 8;
+                scenarioOptions.heroes = 5;
                 break;
             case '4':
-                villainGroups = 3;
-                henchmanGroups = 2;
-                bystanders = 8;
-                heroes = 5;
+                scenarioOptions.villainGroups = 3;
+                scenarioOptions.henchmanGroups = 2;
+                scenarioOptions.bystanders = 8;
+                scenarioOptions.heroes = 5;
                 break;
             case '5':
-                villainGroups = 4;
-                henchmanGroups = 2;
-                bystanders = 12;
-                heroes = 6;
+                scenarioOptions.villainGroups = 4;
+                scenarioOptions.henchmanGroups = 2;
+                scenarioOptions.bystanders = 12;
+                scenarioOptions.heroes = 6;
                 break;
         }
         
-        scenario.Bystanders = bystanders;
-        
-        scenario.Mastermind = pickRandomCard(masterminds);
-        
+        scenario.Bystanders = scenarioOptions.bystanders;
+        scenario.Mastermind = pickRandomCard(cardPool.masterminds);
+        scenario.Scheme = pickRandomCard(cardPool.schemes);
         scenario.Henchmen = [];
         scenario.Villains = [];
+        scenario.Characters = [];
         
         if(scenario.Mastermind) {
             var alwaysLead = internalDb.getCardById(scenario.Mastermind.alwaysLeads);
             if(alwaysLead.cardType === 'henchman') {
-                henchmanGroups--;
+                scenarioOptions.henchmanGroups--;
                 scenario.Henchmen.push(alwaysLead);
-                pickSpecificCard(alwaysLead.cardId, henchmen);
+                //Remove the always lead faction from the card pool.
+                pickSpecificCard(alwaysLead.cardId, cardPool.henchmen);
             }
             else if(alwaysLead.cardType === 'villain') {
-                villainGroups--;
+                scenarioOptions.villainGroups--;
                 scenario.Villains.push(alwaysLead);
-                pickSpecificCard(alwaysLead.cardId, villains);
+                //Remove the always lead faction from the card pool.
+                pickSpecificCard(alwaysLead.cardId, cardPool.villains);
             }
         }
         
-        scenario.Henchmen = scenario.Henchmen.concat(pickRandomCards(henchmanGroups, henchmen));
+        scenario.Henchmen = scenario.Henchmen.concat(pickRandomCards(scenarioOptions.henchmanGroups, cardPool.henchmen));
         sortByCardName(scenario.Henchmen);
-        scenario.Villains = scenario.Villains.concat(pickRandomCards(villainGroups, villains));
+        scenario.Villains = scenario.Villains.concat(pickRandomCards(scenarioOptions.villainGroups, cardPool.villains));
         sortByCardName(scenario.Villains);
-        
-        scenario.Scheme = pickRandomCard(schemes);
-        scenario.Characters = pickRandomCards(heroes, characters);
+        scenario.Characters = scenario.Characters.concat(pickRandomCards(scenarioOptions.heroes, cardPool.characters));
+        sortByCardName(scenario.Characters);
         
         return scenario;
     }
