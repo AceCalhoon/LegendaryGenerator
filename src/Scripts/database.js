@@ -131,6 +131,18 @@ function getCardById(id) {
 	}
 }
 
+function getSetById(id) {
+    for(var lineKey in database) {
+		var currentLine = database[lineKey];
+        for(var setKey in currentLine.sets) {
+            var currentSet = currentLine.sets[setKey];
+            if(currentSet.setId === id) {
+                return currentSet;
+            }
+        }
+	}
+}
+
 var database = [
 	{
 		"lineName" : "Legendary Encounters",
@@ -544,14 +556,20 @@ var database = [
 						"cardName" : "Midtown Bank Robbery",
 						"cardId" : "midtownBankRobbery",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. 12 total Bystanders in the Villain Deck"
+                        "setup" : "8 Scheme Twists. 12 total Bystanders in the Villain Deck",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            scenario.Bystanders = 12;
+                        }
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Negative Zone Prison Breakout",
 						"cardId" : "negativeZonePrisonBreakout",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. Add an extra Henchmen group to the Villain Deck"
+                        "setup" : "8 Scheme Twists. Add an extra Henchmen group to the Villain Deck",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            scenarioOptions.henchmanGroups ++;
+                        }
 					},
                     {
 						"cardType" : "scheme",
@@ -565,21 +583,38 @@ var database = [
 						"cardName" : "Replace Earth's Leaders with Killbots",
 						"cardId" : "replaceEarthsLeadersWithKillbots",
 						"included" : true,
-                        "setup" : "5 Scheme Twists. 3 Additional Scheme Twists next to this Scheme. 18 total Bystanders in the Villain Deck."
+                        "setup" : "5 Scheme Twists. 3 Additional Scheme Twists next to this Scheme. 18 total Bystanders in the Villain Deck.",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            scenario.Bystanders = 18;
+                        }
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Secret Invasion of the Skrull Shapeshifters",
 						"cardId" : "secretInvasionOfTheSkrullShapeshifters",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. 6 Heroes. Skrull Villain Group required. Shuffle 12 Random Heroes from the Hero Deck into the Villain Deck."
+                        "setup" : "8 Scheme Twists. 6 Heroes. Skrull Villain Group required. Shuffle 12 Random Heroes from the Hero Deck into the Villain Deck.",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            scenarioOptions.heroes = 6;
+                            if(!cardPool.containsCard('skrulls', scenario.Villains)) {
+                                var skrulls = cardPool.db.getCardById('skrulls');
+                                scenarioOptions.villainGroups--;
+                                scenario.Villains.push(skrulls);
+                                cardPool.pickSpecificCard(skrulls.cardId, cardPool.villains);
+                            }
+                        }
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Super Hero Civil War",
 						"cardId" : "superHeroCivilWar",
 						"included" : true,
-                        "setup" : "For 2-3 players, use 8 Scheme Twists. For 4-5 players, use 5 Scheme Twists. If only 2 players, use only 4 heroes in the Hero Deck."
+                        "setup" : "For 2-3 players, use 8 Scheme Twists. For 4-5 players, use 5 Scheme Twists. If only 2 players, use only 4 heroes in the Hero Deck.",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            if(scenarioOptions.playerCount === '2') {
+                                scenarioOptions.heroes = 4;
+                            }
+                        }
 					},
                     {
 						"cardType" : "scheme",
@@ -792,7 +827,10 @@ var database = [
 						"cardName" : "Detonate the Helicarrier",
 						"cardId" : "detonateTheHelicarrier",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. 6 Heroes in the Hero Deck."
+                        "setup" : "8 Scheme Twists. 6 Heroes in the Hero Deck.",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            scenarioOptions.heroes = 6;
+                        }
 					},
                     {
 						"cardType" : "scheme",
@@ -806,7 +844,21 @@ var database = [
 						"cardName" : "Organized Crime Wave",
 						"cardId" : "organizedCrimeWave",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. Include 10 Maggia Goons as one of the Henchman groups."
+                        "setup" : "8 Scheme Twists. Include 10 Maggia Goons as one of the Henchman groups.",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            if(!cardPool.containsCard('maggiaGoons', scenario.Henchmen)) {
+                                var goons = getCardById('maggiaGoons');
+                                var smallGoons = {
+                                    cardType: goons.cardType,
+                                    cardName: '10 ' + goons.cardName,
+                                    cardId: goons.cardId,
+                                    set: goons.set
+                                };
+                                scenario.Henchmen.push(smallGoons);
+                                scenarioOptions.henchmanGroups--;
+                                cardPool.pickSpecificCard(goons.cardId, cardPool.henchmen);
+                            }
+                        }
 					},
                     {
 						"cardType" : "scheme",
@@ -820,21 +872,51 @@ var database = [
 						"cardName" : "Steal the Weaponized Plutonium",
 						"cardId" : "stealTheWeaponizedPlutonium",
 						"included" : true,
-                        "setup" : "8 Scheme Twists representing plutonium. Add an extra Villain Group."
+                        "setup" : "8 Scheme Twists representing plutonium. Add an extra Villain Group.",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            scenarioOptions.villainGroups++;
+                        }
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "Transform Citizens into Demons",
 						"cardId" : "transformCitizensIntoDemons",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. Villain Deck includes 14 extra Jean Grey and no Bystanders."
+                        "setup" : "8 Scheme Twists. Villain Deck includes 14 extra Jean Grey and no Bystanders.",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            scenario.Bystanders = 0;
+                            cardPool.pickSpecificCard('jeanGrey', cardPool.characters);
+                            
+                            var jean = getCardById('jeanGrey');
+                            var jeanCard = {
+                                cardType: 'character',
+                                cardName: '14 ' + jean.cardName + ' (Villain Deck)',
+                                cardId: jean.cardId,
+                                included: true,
+                                set: jean.set
+                            }
+                            scenario.Characters.push(jeanCard);
+                        }
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "X-Cutioner's Song",
 						"cardId" : "xcutionersSong",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. Villain Deck includes 14 cards for an extra Hero and no Bystanders"
+                        "setup" : "8 Scheme Twists. Villain Deck includes 14 cards for an extra Hero and no Bystanders",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            scenario.Bystanders = 0;
+                        
+                            var target = cardPool.pickRandomCard(cardPool.characters);
+                            var targetCard = {
+                                cardType: 'character',
+                                cardName: '14 ' + target.cardName + ' (Villain Deck)',
+                                cardId: target.cardId,
+                                included: true,
+                                set: target.set
+                            }
+                            scenario.Characters.push(targetCard);
+                        }
 					}
 				]
 			},
@@ -1002,7 +1084,15 @@ var database = [
 						"cardName" : "Splice Humans with Spider DNA",
 						"cardId" : "spliceHumansWithSpiderDna",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. Include Sinister Six as one of the Villain Groups."
+                        "setup" : "8 Scheme Twists. Include Sinister Six as one of the Villain Groups.",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            if(!cardPool.containsCard('sinisterSix', scenario.Villains)) {
+                                var six = getCardById('sinisterSix');
+                                scenario.Villains.push(six);
+                                scenarioOptions.villainGroups--;
+                                cardPool.pickSpecificCard(six.cardId, cardPool.villains);
+                            }
+                        }
 					},
                     {
 						"cardType" : "scheme",
@@ -1016,7 +1106,19 @@ var database = [
 						"cardName" : "Invade the Daily Bugle News HQ",
 						"cardId" : "invadeTheDailyBugleNewsHq",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. Add 6 extra Henchmen from a single Henchmen Group to the Hero Deck."
+                        "setup" : "8 Scheme Twists. Add 6 extra Henchmen from a single Henchmen Group to the Hero Deck.",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            var hench = cardPool.pickRandomCard(cardPool.henchmen);
+                            var henchHero = {
+                                "cardType" : hench.cardType,
+                                "cardName" : '6 ' + hench.cardName + ' (Henchman)',
+                                "cardId" : hench.cardId,
+                                "include" : hench.included,
+                                "set" : hench.set
+                            };
+                            
+                            scenario.Characters.push(henchHero);
+                        }
 					}
 				]
 			},
@@ -1093,14 +1195,37 @@ var database = [
 						"cardName" : "Forge the Infinity Gauntlet",
 						"cardId" : "forgeTheInfinityGauntlet",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. Always include the Infinity Gems Villain Group"
+                        "setup" : "8 Scheme Twists. Always include the Infinity Gems Villain Group",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            if(!cardPool.containsCard('infinityGems', scenario.Villains)) {
+                                var gems = getCardById('infinityGems');
+                                scenario.Villains.push(gems);
+                                scenarioOptions.villainGroups--;
+                                cardPool.pickSpecificCard(gems.cardId, cardPool.villains);
+                            }
+                        }
 					},
                     {
 						"cardType" : "scheme",
 						"cardName" : "The Kree-Skrull War",
 						"cardId" : "theKreeSkrullWar",
 						"included" : true,
-                        "setup" : "8 Scheme Twists. Always include Kree Starforce and Skrull Villain Groups"
+                        "setup" : "8 Scheme Twists. Always include Kree Starforce and Skrull Villain Groups",
+                        "setupFn" : function(scenario, scenarioOptions, cardPool) {
+                            if(!cardPool.containsCard('kreeStarforce', scenario.Villains)) {
+                                var kree = getCardById('kreeStarforce');
+                                scenario.Villains.push(kree);
+                                scenarioOptions.villainGroups--;
+                                cardPool.pickSpecificCard(kree.cardId, cardPool.villains);
+                            }
+                            
+                            if(!cardPool.containsCard('skrulls', scenario.Villains)) {
+                                var skrulls = getCardById('skrulls');
+                                scenario.Villains.push(skrulls);
+                                scenarioOptions.villainGroups--;
+                                cardPool.pickSpecificCard(skrulls.cardId, cardPool.villains);
+                            }
+                        }
 					},
                     {
 						"cardType" : "scheme",

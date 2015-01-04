@@ -89,13 +89,69 @@ function NewLegendaryRuleset() {
         var scenarioOptions = {};
         
         var cardPool = {
+            db : internalDb,
             henchmen : internalDb.getSelectedCardsByType("henchman"),
             villains : internalDb.getSelectedCardsByType("villain"),
             masterminds : internalDb.getSelectedCardsByType("mastermind"),
             characters : internalDb.getSelectedCardsByType("character"),
-            schemes : internalDb.getSelectedCardsByType("scheme")
+            schemes : internalDb.getSelectedCardsByType("scheme"),
+            
+            containsCard : function(cardId, arr) {
+                for(var i = 0; i < arr.length; ++i) {
+                    if(arr[i].cardId === cardId) {
+                        return true;
+                    }
+                }
+                
+                return false;
+            },
+            
+            pickRandomCard : function(arr) {
+                var selection = this.pickRandomCards(1, arr);
+                if(selection.length > 0) {
+                    return selection[0];
+                }
+                else {
+                    return null;
+                }
+            },
+            
+            pickRandomCards : function(num, arr) {
+                var picks = [];
+                
+                for(var i = 0; i < num && i < arr.length; ++i) {
+                    var pickIndex = this.getRandomInt(0, arr.length);
+                    picks.push(arr[pickIndex]);
+                    arr.splice(pickIndex, 1);
+                }
+                
+                picks.sort(function(a, b) {
+                    return a.cardName.localeCompare(b.cardName);
+                });
+                
+                return picks;
+            },
+            
+            pickSpecificCard : function(id, arr) {
+                for(var i = 0; i < arr.length; ++i) {
+                    if(arr[i].cardId === id) {
+                        var chosenCard = arr[i];
+                        arr.splice(i, 1);
+                        
+                        return chosenCard;
+                    }
+                }
+            },
+            
+            // Returns a random integer between min (included) and max (excluded)
+            // Using Math.round() will give you a non-uniform distribution!
+            // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+            getRandomInt : function(min, max) {
+              return Math.floor(Math.random() * (max - min)) + min;
+            }
         };
         
+        scenarioOptions.playerCount = playerCount;
         switch(playerCount) {
             case '2':
                 scenarioOptions.villainGroups = 2;
@@ -124,8 +180,8 @@ function NewLegendaryRuleset() {
         }
         
         scenario.Bystanders = scenarioOptions.bystanders;
-        scenario.Mastermind = pickRandomCard(cardPool.masterminds);
-        scenario.Scheme = pickRandomCard(cardPool.schemes);
+        scenario.Mastermind = cardPool.pickRandomCard(cardPool.masterminds);
+        scenario.Scheme = cardPool.pickRandomCard(cardPool.schemes);
         scenario.Henchmen = [];
         scenario.Villains = [];
         scenario.Characters = [];
@@ -136,73 +192,34 @@ function NewLegendaryRuleset() {
                 scenarioOptions.henchmanGroups--;
                 scenario.Henchmen.push(alwaysLead);
                 //Remove the always lead faction from the card pool.
-                pickSpecificCard(alwaysLead.cardId, cardPool.henchmen);
+                cardPool.pickSpecificCard(alwaysLead.cardId, cardPool.henchmen);
             }
             else if(alwaysLead.cardType === 'villain') {
                 scenarioOptions.villainGroups--;
                 scenario.Villains.push(alwaysLead);
                 //Remove the always lead faction from the card pool.
-                pickSpecificCard(alwaysLead.cardId, cardPool.villains);
+                cardPool.pickSpecificCard(alwaysLead.cardId, cardPool.villains);
             }
         }
         
-        scenario.Henchmen = scenario.Henchmen.concat(pickRandomCards(scenarioOptions.henchmanGroups, cardPool.henchmen));
+        if(scenario.Scheme.setupFn) {
+            scenario.Scheme.setupFn(scenario, scenarioOptions, cardPool);
+        }
+        
+        scenario.Henchmen = scenario.Henchmen.concat(cardPool.pickRandomCards(scenarioOptions.henchmanGroups, cardPool.henchmen));
         sortByCardName(scenario.Henchmen);
-        scenario.Villains = scenario.Villains.concat(pickRandomCards(scenarioOptions.villainGroups, cardPool.villains));
+        scenario.Villains = scenario.Villains.concat(cardPool.pickRandomCards(scenarioOptions.villainGroups, cardPool.villains));
         sortByCardName(scenario.Villains);
-        scenario.Characters = scenario.Characters.concat(pickRandomCards(scenarioOptions.heroes, cardPool.characters));
+        scenario.Characters = scenario.Characters.concat(cardPool.pickRandomCards(scenarioOptions.heroes, cardPool.characters));
         sortByCardName(scenario.Characters);
         
         return scenario;
     }
 
-    function pickRandomCard(arr) {
-        var selection = pickRandomCards(1, arr);
-        if(selection.length > 0) {
-            return selection[0];
-        }
-        else {
-            return null;
-        }
-    }
-    
-    function pickRandomCards(num, arr) {
-        var picks = [];
-        
-        for(var i = 0; i < num && i < arr.length; ++i) {
-            var pickIndex = getRandomInt(0, arr.length);
-            picks.push(arr[pickIndex]);
-            arr.splice(pickIndex, 1);
-        }
-        
-        picks.sort(function(a, b) {
-            return a.cardName.localeCompare(b.cardName);
-        });
-        
-        return picks;
-    }
-    
-    function pickSpecificCard(id, arr) {
-        for(var i = 0; i < arr.length; ++i) {
-            if(arr[i].cardId === id) {
-                var chosenCard = arr[i];
-                arr.splice(i, 1);
-                
-                return chosenCard;
-            }
-        }
-    }
-    
     function sortByCardName(arr) {
         arr.sort(function(a, b) {
             return a.cardName.localeCompare(b.cardName);
         });
     }
-    
-    // Returns a random integer between min (included) and max (excluded)
-    // Using Math.round() will give you a non-uniform distribution!
-    // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-    function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min)) + min;
-    }
+
 }
