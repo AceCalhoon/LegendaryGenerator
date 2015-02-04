@@ -1,5 +1,6 @@
 CACHE MANIFEST
-EncountersGenerator.html
+.
+index.html
 Stylesheets/site-<!-- @echo VERSION -->.min.css
 Scripts/legendary-generator-<!-- @echo VERSION -->.min.js
 Images/Favicon/favicon.ico
