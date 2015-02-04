@@ -1,4 +1,6 @@
 CACHE MANIFEST
+
+CACHE:
 .
 index.html
 Stylesheets/site-<!-- @echo VERSION -->.min.css
@@ -20,3 +22,7 @@ Images/Favicon/favicon-16x16.png
 Images/Favicon/favicon-32x32.png
 Images/Favicon/mstile-144x144.png
 Images/Favicon/browserconfig.xml
+
+NETWORK:
+
+*
