@@ -47,7 +47,8 @@ module.exports = function(grunt) {
         dist: {
             options: {
                 context: {
-                    VERSION: '<%= pkg.version %>'
+                    VERSION: '<%= pkg.version %>',
+                    ANALYTICS: grunt.file.exists('../src/google-analytics.inc') ? true : null
                 }
             },
             files : [
