@@ -1,4 +1,40 @@
 function NewEncountersRuleset() {
+    //Table for number of Young Blood/Drones to add.
+    //droneYoungBloodTable[<num players>][<objective number>]
+    //droneYoungBloodTable[<num players>].prep
+    var droneYoungBloodTable = {
+        1: {
+            1: 0,
+            2: 0,
+            3: 0,
+            'prep': false
+        },
+        2: {
+            1: 0,
+            2: 1,
+            3: 2,
+            'prep': false
+        },
+        3: {
+            1: 2,
+            2: 3,
+            3: 4,
+            'prep': false
+        },
+        4: {
+            1: 4,
+            2: 5,
+            3: 6,
+            'prep': false
+        },
+        5: {
+            1: 4,
+            2: 5,
+            3: 6,
+            'prep': true
+        }
+    };
+    
     var $filterEl;
     var $resultsEl;
     var internalDb;
@@ -98,12 +134,15 @@ function NewEncountersRuleset() {
         
         var stageOneIndex = getRandomInt(0, stageOneObjectives.length);
         scenario.StageOneObjective = stageOneObjectives[stageOneIndex];
+        scenario.StageOneDrones = droneYoungBloodTable[playerCount][1];
         
         var stageTwoIndex = getRandomInt(0, stageTwoObjectives.length);
         scenario.StageTwoObjective = stageTwoObjectives[stageTwoIndex];
+        scenario.StageTwoDrones = droneYoungBloodTable[playerCount][2];
         
         var stageThreeIndex = getRandomInt(0, stageThreeObjectives.length);
         scenario.StageThreeObjective = stageThreeObjectives[stageThreeIndex];
+        scenario.StageThreeDrones = droneYoungBloodTable[playerCount][3];
         
         scenario.Characters = [];
         for(var i = 0; i < 4; ++i) {
@@ -117,6 +156,7 @@ function NewEncountersRuleset() {
         })
         
         scenario.HiveCards = playerCount;
+        scenario.PrepRound = droneYoungBloodTable[playerCount].prep;
         
         return scenario;
     }

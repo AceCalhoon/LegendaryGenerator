@@ -133,26 +133,29 @@
 			<ul>
                 <li>
                     {{#if StageOneObjective}}
-                        <p class="card-name">{{StageOneObjective.cardName}}</p>
+                        <p class="card-name">{{StageOneObjective.cardName}} (add {{StageOneDrones}} drone cards)</p>
                         <p class="set-name">({{StageOneObjective.set.line.lineName}}: {{StageOneObjective.set.setName}})</p>
                     {{/if}}
                 </li>
 
 				<li>
                     {{#if StageTwoObjective}}
-                        <p class="card-name">{{StageTwoObjective.cardName}}</p>
+                        <p class="card-name">{{StageTwoObjective.cardName}} (add {{StageTwoDrones}} drone cards)</p>
                         <p class="set-name">({{StageTwoObjective.set.line.lineName}}: {{StageTwoObjective.set.setName}})</p>
                     {{/if}}
 				</li>
 				<li>
                     {{#if StageThreeObjective}}
-                        <p class="card-name">{{StageThreeObjective.cardName}}</p>
+                        <p class="card-name">{{StageThreeObjective.cardName}} (add {{StageThreeDrones}} drone cards)</p>
                         <p class="set-name">({{StageThreeObjective.set.line.lineName}}: {{StageThreeObjective.set.setName}})</p>
                     {{/if}}
 				</li>
 			</ul>
 			
-			<p>{{HiveCards}} Hive cards per objective ({{mult HiveCards 3 }} total)</p>
+			{{#if PrepRound}}
+				<p>Skip the Hive phase on each player's first turn.</p>
+			{{/if}}
+			
 			
 			<h1>Characters</h1>
 			<ul>
