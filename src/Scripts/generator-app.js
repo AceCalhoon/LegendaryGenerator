@@ -22,6 +22,9 @@ function NewGeneratorApp(db, el) {
                 case 'LegendaryEncounters':
                     gen.setRuleset(NewEncountersRuleset());
                     break;
+                case 'LegendaryEncountersPredator':
+                    gen.setRuleset(NewPredatorsRuleset());
+                    break;
             }
         });
     

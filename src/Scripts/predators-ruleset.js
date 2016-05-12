@@ -1,4 +1,4 @@
-function NewEncountersRuleset() {
+function NewPredatorsRuleset() {
     //Table for number of Young Blood/Drones to add.
     //droneYoungBloodTable[<num players>][<objective number>]
     //droneYoungBloodTable[<num players>].prep
@@ -39,8 +39,8 @@ function NewEncountersRuleset() {
     var $resultsEl;
     var internalDb;
     
-    var filterTemplateSource = $('#encounters-filter-template').html();
-    var resultsTemplateSource = $('#encounters-results-template').html();
+    var filterTemplateSource = $('#encounters-predators-filter-template').html();
+    var resultsTemplateSource = $('#encounters-predators-results-template').html();
     
     return {
         init: function(db, filterEl, resultsEl) {
@@ -52,7 +52,7 @@ function NewEncountersRuleset() {
         },
         generateScenario: function(playerCount) {
             saveCardFilter();
-            var scenario = getEncountersScenario(playerCount);
+            var scenario = getPredatorsScenario(playerCount);
             bindResults(scenario);
         }
     }
@@ -120,29 +120,25 @@ function NewEncountersRuleset() {
         });
     }
     
-    function getEncountersScenario(playerCount) {
+    function getPredatorsScenario(playerCount) {
         var scenario = {};
 
-        var stageOneObjectives = internalDb.getSelectedCardsByType("stageOneObjective");
-        var stageTwoObjectives = internalDb.getSelectedCardsByType("stageTwoObjective");
-        var stageThreeObjectives = internalDb.getSelectedCardsByType("stageThreeObjective");
+        var stageOnePreys = internalDb.getSelectedCardsByType("stageOnePrey");
+        var stageTwoPreys = internalDb.getSelectedCardsByType("stageTwoPrey");
+        var stageThreePreys = internalDb.getSelectedCardsByType("stageThreePrey");
         var characters = internalDb.getSelectedCardsByType("character");
-        var locations = internalDb.getSelectedCardsByType("location");
         
-        var locationIndex = getRandomInt(0, locations.length);
-        scenario.Location = locations[locationIndex];
+        var stageOneIndex = getRandomInt(0, stageOnePreys.length);
+        scenario.StageOnePrey = stageOnePreys[stageOneIndex];
+        scenario.StageOneMercenaries = droneYoungBloodTable[playerCount][1];
         
-        var stageOneIndex = getRandomInt(0, stageOneObjectives.length);
-        scenario.StageOneObjective = stageOneObjectives[stageOneIndex];
-        scenario.StageOneDrones = droneYoungBloodTable[playerCount][1];
+        var stageTwoIndex = getRandomInt(0, stageTwoPreys.length);
+        scenario.StageTwoPrey = stageTwoPreys[stageTwoIndex];
+        scenario.StageTwoMercenaries = droneYoungBloodTable[playerCount][2];
         
-        var stageTwoIndex = getRandomInt(0, stageTwoObjectives.length);
-        scenario.StageTwoObjective = stageTwoObjectives[stageTwoIndex];
-        scenario.StageTwoDrones = droneYoungBloodTable[playerCount][2];
-        
-        var stageThreeIndex = getRandomInt(0, stageThreeObjectives.length);
-        scenario.StageThreeObjective = stageThreeObjectives[stageThreeIndex];
-        scenario.StageThreeDrones = droneYoungBloodTable[playerCount][3];
+        var stageThreeIndex = getRandomInt(0, stageThreePreys.length);
+        scenario.StageThreePrey = stageThreePreys[stageThreeIndex];
+        scenario.StageThreeMercenaries = droneYoungBloodTable[playerCount][3];
         
         scenario.Characters = [];
         for(var i = 0; i < 4; ++i) {

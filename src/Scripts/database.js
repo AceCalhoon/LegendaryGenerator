@@ -26,6 +26,9 @@ function sortDbRecords() {
 					'stageOneObjective',
 					'stageTwoObjective',
 					'stageThreeObjective',
+					'stageOnePrey',
+					'stageTwoPrey',
+					'stageThreePrey',
 					'mastermind',
                     'scheme',
                     'villain',
@@ -150,7 +153,7 @@ var database = [
 		"included" : true,
 		"sets" : [
 			{
-				"setName" : "Core Set",
+				"setName" : "Aliens",
 				"setId" : "EncountersCoreSet",
 				"included" : true,
 				"cards" : [
@@ -344,6 +347,193 @@ var database = [
 						"cardType" : "location",
 						"cardName" : "The Nostromo",
 						"cardId" : "theNostromo",
+						"included" : true
+					}
+				]
+			},
+			{
+				"setName" : "Predators",
+				"setId" : "EncountersPredators",
+				"included" : true,
+				"cards" : [
+					{
+						"cardType" : "stageOneObjective",
+						"cardName" : "Expendable Assets",
+						"cardId" : "expendableAssets",
+						"included" : true
+					},
+					{
+						"cardType" : "stageOneObjective",
+						"cardName" : "War Zone",
+						"cardId" : "warZone",
+						"included" : true
+					},
+					{
+						"cardType" : "stageTwoObjective",
+						"cardName" : "Flares, Frags, and Claymores",
+						"cardId" : "flaresFragsAndClaymores",
+						"included" : true
+					},
+					{
+						"cardType" : "stageTwoObjective",
+						"cardName" : "Personal Little War",
+						"cardId" : "personalLittleWare",
+						"included" : true
+					},
+					{
+						"cardType" : "stageThreeObjective",
+						"cardName" : "Get to the Choppa!",
+						"cardId" : "getToTheChoppa",
+						"included" : true
+					},
+					{
+						"cardType" : "stageThreeObjective",
+						"cardName" : "Other-world Life-form",
+						"cardId" : "otherWorldLifeForm",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Blain",
+						"cardId" : "blain",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Dillon",
+						"cardId" : "dillon",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Dutch",
+						"cardId" : "dutch",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Mac",
+						"cardId" : "mac",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Danny",
+						"cardId" : "danny",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Harrigan",
+						"cardId" : "harrigan",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Keyes",
+						"cardId" : "keyes",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Lambert",
+						"cardId" : "lambert",
+						"included" : true
+					},
+					{
+						"cardType" : "location",
+						"cardName" : "The Val Verdean Jungle",
+						"cardId" : "theValVerdeanJungle",
+						"included" : true
+					},
+					{
+						"cardType" : "location",
+						"cardName" : "The Streets of Los Angeles",
+						"cardId" : "theStreetsOfLosAngeles",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Woodland - Intel",
+						"cardId" : "woodlandIntel",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Woodland - Strength",
+						"cardId" : "woodlandStrength",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Woodland - Survival",
+						"cardId" : "woodlandSurvival",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Woodland - Tech",
+						"cardId" : "woodlandTech",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Urban - Intel",
+						"cardId" : "urbanIntel",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Urban - Strength",
+						"cardId" : "urbanStrength",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Urban - Survival",
+						"cardId" : "urbanSurvival",
+						"included" : true
+					},
+					{
+						"cardType" : "character",
+						"cardName" : "Urban - Tech",
+						"cardId" : "urbanTech",
+						"included" : true
+					},
+					{
+						"cardType" : "stageOnePrey",
+						"cardName" : "No Sport",
+						"cardId" : "noSport",
+						"included" : true
+					},
+					{
+						"cardType" : "stageOnePrey",
+						"cardName" : "Drawn By Heat and Conflict",
+						"cardId" : "drawnByHeatAndConflict",
+						"included" : true
+					},
+					{
+						"cardType" : "stageTwoPrey",
+						"cardName" : "Payback Time",
+						"cardId" : "paybackTime",
+						"included" : true
+					},
+					{
+						"cardType" : "stageTwoPrey",
+						"cardName" : "This is History",
+						"cardId" : "thisIsHistory",
+						"included" : true
+					},
+					{
+						"cardType" : "stageThreePrey",
+						"cardName" : "What the Hell Are You?",
+						"cardId" : "whatTheHellAreYou",
+						"included" : true
+					},
+					{
+						"cardType" : "stageThreePrey",
+						"cardName" : "A Taste for Beef",
+						"cardId" : "aTasteForBeef",
 						"included" : true
 					}
 				]

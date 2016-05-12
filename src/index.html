@@ -53,7 +53,8 @@
                             <label>Ruleset</label>
                             <div class="control-container">
                                 <input type="radio" name="Ruleset" value="Legendary" id="Ruleset_Legendary"><label for="Ruleset_Legendary">Legendary</label>
-                                <input type="radio" name="Ruleset" value="LegendaryEncounters" id="Ruleset_LegendaryEncounters" checked><label for="Ruleset_LegendaryEncounters">Legendary Encounters</label>
+                                <input type="radio" name="Ruleset" value="LegendaryEncounters" id="Ruleset_LegendaryEncounters" checked><label for="Ruleset_LegendaryEncounters">Encounters (Objectives)</label>
+								<input type="radio" name="Ruleset" value="LegendaryEncountersPredator" id="Ruleset_LegendaryEncountersPredator"><label for="Ruleset_LegendaryEncountersPredator">Encounters (Prey)</label>
                             </div>
                         </li>
                         <li class="num-players">
@@ -167,6 +168,73 @@
 				{{/each}}
 			</ul>
 		</script>
+		
+		<script id="encounters-predators-filter-template" type="text/x-handlebars-template">
+			<h1>Filter</h1>
+			<ul class="lines">
+				{{#each this}}
+					<li>
+						<label>{{lineName}}<input type="checkbox" {{checked included}} data-id="{{lineId}}"></label>
+						<ul class="sets">
+							{{#each sets}}
+								<li>
+									<label>{{setName}}<input type="checkbox" {{checked included}} data-id="{{setId}}"></label>
+									<ul class="cards">
+										{{#each cards}}
+                                            {{#ifInCollection cardType 'character' 'stageOnePrey' 'stageTwoPrey' 'stageThreePrey'}}
+                                                <li class="card-type-{{cardType}}">
+                                                    <label>{{cardName}}<input type="checkbox" {{checked included}} data-id="{{cardId}}"></label>
+                                                </li>
+                                            {{/ifInCollection}}
+										{{/each}}
+									</ul>
+								</li>
+							{{/each}}
+						</ul>
+					</li>
+				{{/each}}
+			</ul>
+		</script>
+
+		<script id="encounters-predators-results-template" type="text/x-handlebars-template">
+			<h1>Prey</h1>
+			<ul>
+                <li>
+                    {{#if StageOnePrey}}
+                        <p class="card-name">{{StageOnePrey.cardName}} (add {{StageOneMercenaries}} mercenary cards)</p>
+                        <p class="set-name">({{StageOnePrey.set.line.lineName}}: {{StageOnePrey.set.setName}})</p>
+                    {{/if}}
+                </li>
+
+				<li>
+                    {{#if StageTwoPrey}}
+                        <p class="card-name">{{StageTwoPrey.cardName}} (add {{StageTwoMercenaries}} mercenary cards)</p>
+                        <p class="set-name">({{StageTwoPrey.set.line.lineName}}: {{StageTwoPrey.set.setName}})</p>
+                    {{/if}}
+				</li>
+				<li>
+                    {{#if StageThreePrey}}
+                        <p class="card-name">{{StageThreePrey.cardName}} (add {{StageThreeMercenaries}} mercenary cards)</p>
+                        <p class="set-name">({{StageThreePrey.set.line.lineName}}: {{StageThreePrey.set.setName}})</p>
+                    {{/if}}
+				</li>
+			</ul>
+			
+			{{#if PrepRound}}
+				<p>Skip the Prey phase on each player's first turn.</p>
+			{{/if}}
+			
+			
+			<h1>Characters</h1>
+			<ul>
+				{{#each Characters}}
+					<li>
+						<p class="card-name">{{cardName}}</p>
+						<p class="set-name">({{set.line.lineName}}: {{set.setName}})</p>
+					</li>
+				{{/each}}
+			</ul>
+		</script>
 
         <script id="legendary-filter-template" type="text/x-handlebars-template">
 			<h1>Filter</h1>
@@ -267,6 +335,7 @@
         <script src="Scripts/generator-base.js"></script>
         <script src="Scripts/encounters-ruleset.js"></script>
         <script src="Scripts/legendary-ruleset.js"></script>
+		<script src="Scripts/predators-ruleset.js"></script>
 		<!-- @endif -->
 		
 		<!-- @ifndef DEBUG !>
